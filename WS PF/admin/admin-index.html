@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Manager · Pamilerin Sanni</title>
+    <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^7.0.0/dist/cms.css" />
+    <style>
+        body { background: #0a1a12; font-family: 'Inter', sans-serif; }
+        .nc-app { background: #0a1a12; }
+        .nc-app .nc-header { background: #0d2b20; border-bottom: 1px solid rgba(212,167,69,0.15); }
+        .nc-app .nc-header .nc-title { color: #d4a745; }
+        .nc-app .nc-sidebar { background: #0d2b20; }
+        .nc-app .nc-sidebar a { color: #ecf4f0; }
+        .nc-app .nc-sidebar a:hover { color: #d4a745; }
+        .nc-app .nc-entry .nc-entry-content { background: #0f2a1e; color: #ecf4f0; }
+        .nc-app .nc-entry .nc-entry-content .nc-control { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #ecf4f0; }
+        .nc-app .nc-entry .nc-entry-content .nc-control:focus { border-color: #d4a745; box-shadow: 0 0 0 3px rgba(212,167,69,0.1); }
+        .nc-app .nc-entry .nc-entry-content label { color: #8bb8a8; }
+        .nc-app .nc-entry .nc-entry-content .nc-button { background: linear-gradient(135deg, #d4a745, #b8923a); color: #0a1a12; }
+        .nc-app .nc-entry .nc-entry-content .nc-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,167,69,0.3); }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/netlify-cms@^7.0.0/dist/netlify-cms.js"></script>
+    <script>
+        CMS.init({
+            config: {
+                backend: {
+                    name: 'github',
+                    repo: 'pamilerinsanni/pamilerin-portfolio',
+                    branch: 'main',
+                    base_url: 'https://pamilerin-sanni.pages.dev',
+                },
+                local_backend: false,
+                media_folder: 'assets/images',
+                public_folder: '/assets/images',
+                collections: [
+                    {
+                        name: 'blog',
+                        label: 'Blog Posts',
+                        folder: '_posts/blog',
+                        create: true,
+                        slug: '{{slug}}',
+                        fields: [
+                            { name: 'title', label: 'Title', widget: 'string' },
+                            { name: 'date', label: 'Date', widget: 'datetime' },
+                            { name: 'tags', label: 'Tags', widget: 'list', default: ['Construction'] },
+                            { name: 'featured_image', label: 'Featured Image', widget: 'image', required: false },
+                            { name: 'excerpt', label: 'Excerpt', widget: 'text', required: false },
+                            { name: 'body', label: 'Body', widget: 'markdown' },
+                            { name: 'author', label: 'Author', widget: 'string', default: 'Pamilerin I. Sanni' },
+                            { name: 'read_time', label: 'Read Time (minutes)', widget: 'number', default: 5 }
+                        ]
+                    },
+                    {
+                        name: 'news',
+                        label: 'News Articles',
+                        folder: '_posts/news',
+                        create: true,
+                        slug: '{{slug}}',
+                        fields: [
+                            { name: 'title', label: 'Title', widget: 'string' },
+                            { name: 'date', label: 'Date', widget: 'datetime' },
+                            { name: 'tag', label: 'Tag', widget: 'select', options: ['Breaking', 'Policy', 'Safety', 'Telecom', 'Research', 'Education', 'Housing', 'Development'] },
+                            { name: 'source', label: 'Source', widget: 'string', required: false },
+                            { name: 'body', label: 'Body', widget: 'markdown' }
+                        ]
+                    },
+                    {
+                        name: 'settings',
+                        label: 'Settings',
+                        files: [
+                            {
+                                name: 'general',
+                                label: 'General Settings',
+                                file: '_data/settings.json',
+                                fields: [
+                                    { name: 'site_title', label: 'Site Title', widget: 'string' },
+                                    { name: 'site_description', label: 'Site Description', widget: 'text' },
+                                    { name: 'author_name', label: 'Author Name', widget: 'string' },
+                                    { name: 'author_title', label: 'Author Title', widget: 'string' },
+                                    { name: 'social_links', label: 'Social Links', widget: 'list', fields: [
+                                        { name: 'platform', label: 'Platform', widget: 'string' },
+                                        { name: 'url', label: 'URL', widget: 'string' }
+                                    ] }
+                                ]
+                            },
+                            {
+                                name: 'hero',
+                                label: 'Hero Section',
+                                file: '_data/hero.json',
+                                fields: [
+                                    { name: 'greeting', label: 'Greeting', widget: 'string' },
+                                    { name: 'title', label: 'Main Title', widget: 'string' },
+                                    { name: 'subtitle', label: 'Subtitle', widget: 'string' },
+                                    { name: 'description', label: 'Description', widget: 'text' },
+                                    { name: 'badges', label: 'Badges', widget: 'list', fields: [
+                                        { name: 'icon', label: 'Icon', widget: 'string' },
+                                        { name: 'text', label: 'Text', widget: 'string' }
+                                    ] }
+                                ]
+                            },
+                            {
+                                name: 'about',
+                                label: 'About Section',
+                                file: '_data/about.json',
+                                fields: [
+                                    { name: 'title', label: 'Title', widget: 'string' },
+                                    { name: 'subtitle', label: 'Subtitle', widget: 'string' },
+                                    { name: 'content', label: 'Content', widget: 'markdown' },
+                                    { name: 'research_interests', label: 'Research Interests', widget: 'list', fields: [
+                                        { name: 'interest', label: 'Interest', widget: 'string' }
+                                    ] }
+                                ]
+                            },
+                            {
+                                name: 'quotes',
+                                label: 'Quotes',
+                                file: '_data/quotes.json',
+                                fields: [
+                                    { name: 'quotes', label: 'Quotes', widget: 'list', fields: [
+                                        { name: 'text', label: 'Quote Text', widget: 'text' },
+                                        { name: 'author', label: 'Author', widget: 'string' },
+                                        { name: 'image', label: 'Image', widget: 'image', required: false }
+                                    ] }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>
