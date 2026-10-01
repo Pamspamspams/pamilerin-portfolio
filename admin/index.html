@@ -5,49 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager · Pamilerin Sanni</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/main.css" />
+    <style>
+        body { background: #0a1a12; font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Load the script from your OWN site, not a CDN -->
+    <script src="/admin/decap-cms.js"></script>
     <script>
-        CMS.init({
-            config: {
-                backend: {
-                    name: 'github',
-                    repo: 'Pampspampamps/pamilerin-portfolio',
-                    branch: 'main',
-                    base_url: 'https://pamilerin-portfolio.pages.dev',
-                },
-                local_backend: false,
-                media_folder: 'assets/images',
-                public_folder: '/assets/images',
-                collections: [
-                    {
-                        name: 'blog',
-                        label: 'Blog Posts',
-                        folder: '_posts/blog',
-                        create: true,
-                        fields: [
-                            { name: 'title', label: 'Title', widget: 'string' },
-                            { name: 'date', label: 'Date', widget: 'datetime' },
-                            { name: 'tags', label: 'Tags', widget: 'list' },
-                            { name: 'body', label: 'Body', widget: 'markdown' }
-                        ]
-                    },
-                    {
-                        name: 'news',
-                        label: 'News Articles',
-                        folder: '_posts/news',
-                        create: true,
-                        fields: [
-                            { name: 'title', label: 'Title', widget: 'string' },
-                            { name: 'date', label: 'Date', widget: 'datetime' },
-                            { name: 'tag', label: 'Tag', widget: 'string' },
-                            { name: 'body', label: 'Body', widget: 'markdown' }
+        window.onload = function() {
+            if (window.CMS) {
+                CMS.init({
+                    config: {
+                        backend: {
+                            name: 'github',
+                            repo: 'Pampspampamps/pamilerin-portfolio',
+                            branch: 'main',
+                            base_url: 'https://pamilerin-portfolio.pages.dev',
+                        },
+                        media_folder: 'assets/images',
+                        public_folder: '/assets/images',
+                        collections: [
+                            {
+                                name: 'blog',
+                                label: 'Blog Posts',
+                                folder: '_posts/blog',
+                                create: true,
+                                fields: [
+                                    { name: 'title', label: 'Title', widget: 'string' },
+                                    { name: 'date', label: 'Date', widget: 'datetime' },
+                                    { name: 'body', label: 'Body', widget: 'markdown' }
+                                ]
+                            },
+                            {
+                                name: 'news',
+                                label: 'News Articles',
+                                folder: '_posts/news',
+                                create: true,
+                                fields: [
+                                    { name: 'title', label: 'Title', widget: 'string' },
+                                    { name: 'date', label: 'Date', widget: 'datetime' },
+                                    { name: 'body', label: 'Body', widget: 'markdown' }
+                                ]
+                            }
                         ]
                     }
-                ]
+                });
+            } else {
+                console.error("Decap CMS script failed to load from local file.");
+                document.body.innerHTML = '<p style="color: white; padding: 20px;">Error: Could not load the CMS library from local file.</p>';
             }
-        });
+        };
     </script>
 </body>
 </html>
