@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog · Pamilerin I. Sanni</title>
+    <meta name="description" content="Blog posts on construction, safety, and sustainable development by Pamilerin I. Sanni.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #d4a745;
+            --primary-dark: #0a1a12;
+            --primary-medium: #0f2a1e;
+            --text-light: #ecf4f0;
+            --text-muted: #8bb8a8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--primary-dark); color: var(--text-light); overflow-x: hidden; }
+
+        /* TOP BAR */
+        .top-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1060;
+            background: rgba(13,43,32,0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(212,167,69,0.15);
+            padding: 6px 16px; display: flex; flex-wrap: wrap;
+            justify-content: space-between; align-items: center; gap: 4px 12px;
+        }
+        .top-bar .top-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+        .top-bar .top-item i { color: var(--primary-gold); font-size: 12px; width: 18px; text-align: center; }
+        .top-bar .top-item .value { color: #fff; font-weight: 500; }
+        .top-bar .top-divider { color: rgba(255,255,255,0.06); }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed; top: 48px; left: 0; width: 260px;
+            height: calc(100vh - 48px); background: rgba(13,43,32,0.96);
+            backdrop-filter: blur(16px); border-right: 1px solid rgba(212,167,69,0.08);
+            z-index: 1050; padding: 20px 16px; overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex; flex-direction: column;
+        }
+        .sidebar .profile { text-align: center; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .sidebar .profile .avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-gold); margin-bottom: 8px; }
+        .sidebar .profile h4 { color: #fff; font-size: 15px; }
+        .sidebar .profile .role { color: var(--text-muted); font-size: 10px; }
+        .sidebar .profile .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 6px; }
+        .sidebar .profile .badges span { background: rgba(212,167,69,0.1); border: 1px solid rgba(212,167,69,0.1); color: var(--primary-gold); font-size: 6px; padding: 2px 6px; border-radius: 10px; font-weight: 600; text-transform: uppercase; }
+        .sidebar .nav { flex: 1; padding: 10px 0; }
+        .sidebar .nav a { display: flex; align-items: center; gap: 10px; padding: 6px 10px; color: #b8d4c8; border-radius: 8px; transition: 0.3s; text-decoration: none; font-weight: 500; font-size: 11px; margin-bottom: 1px; }
+        .sidebar .nav a:hover { background: rgba(212,167,69,0.08); color: var(--primary-gold); }
+        .sidebar .nav a.active { background: rgba(212,167,69,0.12); color: var(--primary-gold); }
+        .sidebar .nav a i { width: 18px; font-size: 13px; text-align: center; color: var(--primary-gold); }
+        .sidebar .social { display: flex; justify-content: center; gap: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .sidebar .social a { color: var(--text-muted); font-size: 15px; transition: 0.3s; }
+        .sidebar .social a:hover { color: var(--primary-gold); transform: translateY(-3px); }
+        .sidebar .footer-text { font-size: 8px; color: #4a6a5a; text-align: center; padding-top: 8px; }
+
+        .sidebar-toggle { display: none; position: fixed; top: 54px; left: 10px; z-index: 1060; background: rgba(13,43,32,0.9); border: 1px solid rgba(212,167,69,0.15); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1040; }
+
+        .main-content { margin-left: 260px; margin-top: 48px; min-height: calc(100vh - 48px); padding: 40px 30px; }
+
+        /* BLOG HEADER */
+        .blog-header { text-align: center; margin-bottom: 40px; }
+        .blog-header .badge-custom { display: inline-block; background: rgba(212,167,69,0.1); border: 1px solid rgba(212,167,69,0.15); padding: 4px 16px; border-radius: 30px; color: var(--primary-gold); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .blog-header h1 { font-size: 36px; font-weight: 800; color: #fff; }
+        .blog-header h1 span { color: var(--primary-gold); }
+        .blog-header p { color: var(--text-muted); font-size: 16px; margin-top: 6px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* BLOG CARDS */
+        .blog-post-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px; transition: 0.4s; height: 100%; cursor: pointer; }
+        .blog-post-card:hover { border-color: rgba(212,167,69,0.2); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+        .blog-post-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 16px; }
+        .blog-post-card .post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .blog-post-card .post-tags span { background: rgba(212,167,69,0.1); color: var(--primary-gold); font-size: 9px; padding: 2px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+        .blog-post-card h3 { color: #fff; font-weight: 700; font-size: 18px; margin-bottom: 8px; transition: 0.3s; }
+        .blog-post-card:hover h3 { color: var(--primary-gold); }
+        .blog-post-card .post-excerpt { color: #b8d4c8; font-size: 13px; line-height: 1.7; }
+        .blog-post-card .post-meta { color: var(--text-muted); font-size: 11px; margin-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .blog-post-card .post-meta i { color: var(--primary-gold); margin-right: 4px; }
+        .blog-post-card .post-meta .read-more { color: var(--primary-gold); font-weight: 600; font-size: 12px; }
+        .no-posts { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .no-posts i { font-size: 48px; color: var(--primary-gold); margin-bottom: 16px; display: block; }
+
+        /* MODAL */
+        .modal-content-custom { background: var(--primary-dark); border: 1px solid rgba(212,167,69,0.15); border-radius: 18px; color: var(--text-light); }
+        .modal-content-custom .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 16px 20px; }
+        .modal-content-custom .modal-header .btn-close { filter: invert(1) brightness(2); }
+        .modal-content-custom .modal-body { padding: 20px; max-height: 70vh; overflow-y: auto; }
+        .modal-content-custom .modal-body h4 { color: var(--primary-gold); margin-bottom: 12px; }
+        .modal-content-custom .modal-body .post-content { color: #b8d4c8; line-height: 1.9; font-size: 15px; }
+        .modal-content-custom .modal-body .post-content h5 { color: #fff; margin-top: 20px; }
+        .modal-content-custom .modal-body .post-content ul, .modal-content-custom .modal-body .post-content ol { padding-left: 20px; }
+        .modal-content-custom .modal-body .post-content li { margin-bottom: 6px; }
+        .modal-content-custom .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 20px; }
+
+        .loading-spinner { text-align: center; padding: 60px 20px; }
+        .loading-spinner .spinner { width: 50px; height: 50px; border: 4px solid rgba(212,167,69,0.1); border-top-color: var(--primary-gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .footer { background: #06120e; padding: 16px 30px; border-top: 1px solid rgba(255,255,255,0.04); margin-left: 260px; }
+        .footer p { color: #4a6a5a; font-size: 12px; margin: 0; }
+        .footer .socials a { color: #4a6a5a; font-size: 15px; transition: 0.3s; margin-left: 12px; }
+        .footer .socials a:hover { color: var(--primary-gold); }
+
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(-100%); top: 44px; height: calc(100vh - 44px); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.active { display: block; }
+            .sidebar-toggle { display: block; }
+            .main-content { margin-left: 0; margin-top: 44px; padding: 30px 16px; }
+            .blog-header h1 { font-size: 28px; }
+            .footer { margin-left: 0; }
+        }
+        @media (max-width: 576px) {
+            .top-bar { flex-wrap: wrap; justify-content: center; padding: 3px 8px; gap: 2px 6px; }
+            .top-bar .top-item { font-size: 8px; }
+            .top-bar .top-item i { font-size: 9px; width: 12px; }
+            .blog-header h1 { font-size: 22px; }
+            .main-content { padding: 20px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-item"><i class="fas fa-clock"></i><span class="value" id="liveTime">--:--:--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-calendar-day"></i><span class="value" id="liveDate">--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-cloud-sun"></i><span class="value" id="liveWeather">🌤️ Loading...</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-map-pin"></i><span class="value">Lagos, Nigeria</span></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="profile">
+            <img src="assets/images/sss.jpg" alt="Pamilerin Sanni" class="avatar" />
+            <h4>Pamilerin I. Sanni, MNIOB</h4>
+            <div class="role"><i class="fas fa-briefcase"></i> Construction Manager · PMO Specialist</div>
+            <div class="badges">
+                <span>Ph.D (In-view)</span>
+                <span>M.Sc Construction Mgt</span>
+                <span>B.Tech Building (1st Class)</span>
+            </div>
+        </div>
+        <nav class="nav">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="blog.html" class="active"><i class="fas fa-blog"></i> Blog</a>
+            <a href="news.html"><i class="fas fa-newspaper"></i> Breaking News</a>
+            <a href="index.html#about"><i class="fas fa-user"></i> About</a>
+            <a href="index.html#career"><i class="fas fa-briefcase"></i> Career</a>
+            <a href="index.html#academic"><i class="fas fa-graduation-cap"></i> Academic</a>
+            <a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+        <div class="social">
+            <a href="https://linkedin.com/in/pamilerin-sanni-7523071883" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-text"><i class="fas fa-crown"></i> 2026 · Pamilerin Sanni</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="blog-header">
+            <span class="badge-custom"><i class="fas fa-blog me-2"></i>Blog</span>
+            <h1>My <span>Blog</span></h1>
+            <p>Insights on construction, safety, and sustainable development</p>
+        </div>
+
+        <div class="row g-4" id="blogPosts">
+            <div class="col-12 text-center">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p style="color:var(--text-muted);">Loading blog posts...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="blogModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="blogModalTitle">Blog Post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="blogModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background:#2a4a38;border:none;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <p>&copy; 2026 Pamilerin Ifelayo Sanni · Construction Manager</p>
+                <div class="socials">
+                    <a href="https://linkedin.com/in/pamilerin-sanni-7523071883" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // SIDEBAR
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+        document.querySelectorAll('.sidebar .nav a').forEach(link => {
+            link.addEventListener('click', () => { if (window.innerWidth <= 992) toggleSidebar(); });
+        });
+
+        // TIME
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // WEATHER
+        async function fetchWeather() {
+            try {
+                const res = await fetch('https://wttr.in/Lagos,Nigeria?format=%t&lang=en&m');
+                const temp = await res.text();
+                document.getElementById('liveWeather').innerHTML = temp.trim() || '🌤️ 28°C';
+            } catch { document.getElementById('liveWeather').innerHTML = '🌤️ 28°C (Lagos)'; }
+        }
+        fetchWeather();
+        setInterval(fetchWeather, 900000);
+
+        // BLOG POSTS
+        const blogPosts = [
+            {
+                title: "10 Essential Safety Practices Every Site Manager Must Know",
+                date: "2026-08-15",
+                tags: ["Construction", "Safety"],
+                excerpt: "Discover the critical safety protocols that protect workers and ensure project success on construction sites.",
+                read_time: 5,
+                content: `<h4>Introduction</h4>
+                    <p>Safety on construction sites is not just a regulatory requirement — it's a moral obligation. Every site manager must prioritize the well-being of their workers. Here are 10 essential safety practices:</p>
+                    <ol>
+                        <li><strong>Conduct Regular Safety Training:</strong> Ensure all workers are trained on safety protocols and emergency procedures.</li>
+                        <li><strong>Perform Daily Site Inspections:</strong> Identify and address potential hazards before they cause accidents.</li>
+                        <li><strong>Enforce PPE Usage:</strong> Hard hats, safety boots, gloves, and high-visibility vests are non-negotiable.</li>
+                        <li><strong>Maintain Clear Communication:</strong> Use radios, signals, and signage to keep everyone informed.</li>
+                        <li><strong>Implement Fall Protection:</strong> Guardrails, safety nets, and harnesses are essential for elevated work.</li>
+                        <li><strong>Control Hazardous Materials:</strong> Proper storage, handling, and disposal of chemicals.</li>
+                        <li><strong>Ensure Equipment Safety:</strong> Regular maintenance and inspection of all machinery and tools.</li>
+                        <li><strong>Develop Emergency Plans:</strong> Fire drills, first aid kits, and evacuation routes must be in place.</li>
+                        <li><strong>Encourage a Safety Culture:</strong> Reward safe behavior and encourage workers to report hazards.</li>
+                        <li><strong>Learn from Incidents:</strong> Investigate near-misses and accidents to prevent recurrence.</li>
+                    </ol>
+                    <p><strong>Conclusion:</strong> Safety is everyone's responsibility. By implementing these practices, site managers can create a safer, more productive work environment.</p>
+                    <p><em>— Pamilerin I. Sanni, Construction Manager</em></p>`
+            },
+            {
+                title: "Sustainable Building Materials: The Future of Construction in Nigeria",
+                date: "2026-08-10",
+                tags: ["Sustainability", "Construction"],
+                excerpt: "Exploring eco-friendly materials that reduce environmental impact while maintaining structural integrity.",
+                read_time: 7,
+                content: `<h4>Introduction</h4>
+                    <p>Nigeria's construction industry is rapidly evolving, and sustainable building materials are at the forefront of this transformation.</p>
+                    <h5>Why Sustainable Materials Matter</h5>
+                    <ul>
+                        <li><strong>Environmental Impact:</strong> Reduce carbon footprint and conserve natural resources.</li>
+                        <li><strong>Cost Efficiency:</strong> Many sustainable materials are cost-effective in the long run.</li>
+                        <li><strong>Energy Efficiency:</strong> Improve building performance and reduce energy consumption.</li>
+                        <li><strong>Health and Well-being:</strong> Create healthier indoor environments.</li>
+                    </ul>
+                    <h5>Examples of Sustainable Materials in Nigeria</h5>
+                    <ul>
+                        <li><strong>Agro-Waste Composites:</strong> Using agricultural waste for building boards and panels.</li>
+                        <li><strong>Recycled Aggregates:</strong> Reusing construction and demolition waste.</li>
+                        <li><strong>Bamboo:</strong> A fast-growing, renewable material.</li>
+                        <li><strong>Earth Bricks:</strong> Compressed earth blocks for affordable housing.</li>
+                    </ul>
+                    <p><strong>Conclusion:</strong> The future of Nigerian construction lies in embracing sustainable materials.</p>
+                    <p><em>— Pamilerin I. Sanni, Construction Manager</em></p>`
+            },
+            {
+                title: "How AI and IoT Are Revolutionizing Construction Management",
+                date: "2026-08-05",
+                tags: ["Technology", "Innovation"],
+                excerpt: "Learn how digital technologies are transforming project delivery, safety monitoring, and resource optimization.",
+                read_time: 6,
+                content: `<h4>Introduction</h4>
+                    <p>Artificial Intelligence (AI) and the Internet of Things (IoT) are transforming the construction industry.</p>
+                    <h5>Key Applications of AI in Construction</h5>
+                    <ul>
+                        <li><strong>Project Scheduling:</strong> AI algorithms optimize timelines and resource allocation.</li>
+                        <li><strong>Risk Assessment:</strong> Predictive analytics identify potential risks before they occur.</li>
+                        <li><strong>Quality Control:</strong> AI-powered inspections detect defects.</li>
+                        <li><strong>Cost Estimation:</strong> Accurate forecasting of project costs.</li>
+                    </ul>
+                    <h5>IoT Applications on Construction Sites</h5>
+                    <ul>
+                        <li><strong>Equipment Monitoring:</strong> Real-time tracking of machinery performance.</li>
+                        <li><strong>Worker Safety:</strong> Wearable devices monitor worker health.</li>
+                        <li><strong>Site Surveillance:</strong> IoT cameras provide 24/7 site monitoring.</li>
+                        <li><strong>Inventory Management:</strong> Automated tracking of materials.</li>
+                    </ul>
+                    <p><strong>Conclusion:</strong> AI and IoT are the future of construction management.</p>
+                    <p><em>— Pamilerin I. Sanni, Construction Manager</em></p>`
+            }
+        ];
+
+        function loadBlogPosts() {
+            const container = document.getElementById('blogPosts');
+            if (blogPosts.length === 0) {
+                container.innerHTML = `<div class="col-12"><div class="no-posts"><i class="fas fa-pen-fancy"></i><h4>No Blog Posts Yet</h4><p>Check back soon!</p></div></div>`;
+                return;
+            }
+            blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            container.innerHTML = blogPosts.map(post => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="blog-post-card" onclick="openBlogPost('${post.title}')">
+                        <img src="assets/images/blog1.jpg" alt="${post.title}" />
+                        <div class="post-tags">${post.tags.map(tag => `<span>${tag}</span>`).join('')}</div>
+                        <h3>${post.title}</h3>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-calendar-alt"></i> ${formatDate(post.date)}</span>
+                            <span><i class="fas fa-clock"></i> ${post.read_time} min</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function openBlogPost(title) {
+            const post = blogPosts.find(p => p.title === title);
+            if (!post) return;
+            const modal = new bootstrap.Modal(document.getElementById('blogModal'));
+            document.getElementById('blogModalTitle').textContent = post.title;
+            document.getElementById('blogModalBody').innerHTML = `
+                <div style="color:#8bb8a8;font-size:13px;margin-bottom:16px;">
+                    <span><i class="fas fa-calendar-alt" style="color:#d4a745;"></i> ${formatDate(post.date)}</span>
+                    <span class="ms-3"><i class="fas fa-clock" style="color:#d4a745;"></i> ${post.read_time} min read</span>
+                    <span class="ms-3"><i class="fas fa-tags" style="color:#d4a745;"></i> ${post.tags.join(', ')}</span>
+                </div>
+                <div class="post-content">${post.content}</div>
+            `;
+            modal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    </script>
+</body>
+</html>
