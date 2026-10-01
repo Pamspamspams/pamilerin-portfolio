@@ -4,13 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager · Pamilerin Sanni</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/main.css" />
     <style>
-        body { background: #0a1a12; font-family: 'Inter', sans-serif; }
+        body { background: #0a1a12; font-family: 'Inter', sans-serif; color: white; margin: 0; }
     </style>
 </head>
 <body>
-    <!-- Load script from YOUR OWN site (not a CDN) -->
     <script src="/admin/decap-cms.js"></script>
     <script>
         window.onload = function() {
@@ -52,8 +50,7 @@
                     }
                 });
             } else {
-                console.error("Decap CMS script failed to load from local file.");
-                document.body.innerHTML = '<p style="color: white; padding: 20px;">Error: CMS script not found. Check that decap-cms.js is in the /admin/ folder.</p>';
+                document.body.innerHTML = '<p style="padding:20px;">Error: CMS not loaded from /admin/decap-cms.js</p>';
             }
         };
     </script>
