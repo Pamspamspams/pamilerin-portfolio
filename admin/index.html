@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <!-- Load the script from your OWN site, not a CDN -->
+    <!-- Load script from YOUR OWN site (not a CDN) -->
     <script src="/admin/decap-cms.js"></script>
     <script>
         window.onload = function() {
@@ -53,7 +53,7 @@
                 });
             } else {
                 console.error("Decap CMS script failed to load from local file.");
-                document.body.innerHTML = '<p style="color: white; padding: 20px;">Error: Could not load the CMS library from local file.</p>';
+                document.body.innerHTML = '<p style="color: white; padding: 20px;">Error: CMS script not found. Check that decap-cms.js is in the /admin/ folder.</p>';
             }
         };
     </script>
