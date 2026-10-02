@@ -1,0 +1,5 @@
+# Redirect old URLs if needed
+# Format: /old-path /new-path 301
+
+# SPA fallback (optional - sends 404s to homepage)
+# /* /index.html 200

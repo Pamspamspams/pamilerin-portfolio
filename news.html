@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News · Pamilerin Ifelayo Sanni</title>
+    <meta name="description" content="Latest construction and infrastructure news from Nigeria by Pamilerin Ifelayo Sanni.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #b8860b;
+            --primary-gold-light: #d4a745;
+            --bg-white: #ffffff;
+            --bg-light: #f8f9fa;
+            --text-dark: #1a1a1a;
+            --text-body: #333333;
+            --text-muted: #6c757d;
+            --border-light: #e5e7eb;
+            --sidebar-width: 280px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-white); color: var(--text-body); overflow-x: hidden; }
+
+        /* TOP BAR */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1060; background: rgba(255,255,255,0.98); border-bottom: 1px solid var(--border-light); padding: 6px 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; }
+        .top-bar .top-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+        .top-bar .top-item i { color: var(--primary-gold); font-size: 12px; width: 18px; text-align: center; }
+        .top-bar .top-item .value { color: var(--text-dark); font-weight: 600; }
+        .top-bar .top-item .value.gold { color: var(--primary-gold); }
+        .top-bar .top-divider { color: var(--border-light); }
+
+        /* SIDEBAR */
+        .sidebar { position: fixed; top: 48px; left: 0; width: var(--sidebar-width); height: calc(100vh - 48px); background: var(--bg-light); border-right: 1px solid var(--border-light); z-index: 1050; padding: 20px 16px; overflow-y: auto; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; }
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 10px; }
+        .sidebar .profile-section { text-align: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+        .sidebar .profile-section .avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-gold); margin-bottom: 8px; transition: transform 0.3s; }
+        .sidebar .profile-section .avatar:hover { transform: scale(1.05); }
+        .sidebar .profile-section h4 { color: var(--text-dark); font-weight: 700; font-size: 15px; }
+        .sidebar .profile-section .role { color: var(--text-muted); font-size: 10px; }
+        .sidebar .profile-section .badge-certs { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 6px; }
+        .sidebar .profile-section .badge-certs span { background: rgba(184,134,11,0.1); border: 1px solid rgba(184,134,11,0.2); color: var(--primary-gold); font-size: 6px; padding: 2px 6px; border-radius: 10px; font-weight: 600; text-transform: uppercase; }
+        .sidebar .nav-menu { flex: 1; padding: 10px 0; }
+        .sidebar .nav-menu .nav-link-custom { display: flex; align-items: center; gap: 10px; padding: 6px 10px; color: var(--text-body); border-radius: 8px; transition: 0.3s; text-decoration: none; font-weight: 500; font-size: 11px; margin-bottom: 1px; }
+        .sidebar .nav-menu .nav-link-custom:hover { background: rgba(184,134,11,0.08); color: var(--primary-gold); transform: translateX(4px); }
+        .sidebar .nav-menu .nav-link-custom.active { background: rgba(184,134,11,0.12); color: var(--primary-gold); font-weight: 700; }
+        .sidebar .nav-menu .nav-link-custom i { width: 18px; font-size: 13px; text-align: center; color: var(--primary-gold); }
+        .sidebar .social-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border-light); }
+        .sidebar .social-links a { color: var(--text-muted); font-size: 15px; transition: 0.3s; }
+        .sidebar .social-links a:hover { color: var(--primary-gold); transform: translateY(-3px); }
+        .sidebar .sidebar-footer { font-size: 8px; color: var(--text-muted); text-align: center; padding-top: 8px; }
+        .sidebar .sidebar-footer i { color: var(--primary-gold); }
+        .sidebar-toggle { display: none; position: fixed; top: 54px; left: 10px; z-index: 1060; background: var(--bg-white); border: 1px solid var(--border-light); color: var(--text-dark); padding: 6px 10px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1040; }
+        .main-content { margin-left: var(--sidebar-width); margin-top: 48px; min-height: calc(100vh - 48px); }
+
+        /* SECTIONS */
+        .section { padding: 60px 30px; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title .badge-custom { display: inline-block; background: rgba(184,134,11,0.1); border: 1px solid rgba(184,134,11,0.2); padding: 4px 16px; border-radius: 30px; color: var(--primary-gold); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .section-title h2 { font-size: 32px; font-weight: 800; color: var(--text-dark); }
+        .section-title h2 span { color: var(--primary-gold); }
+        .section-title p { color: var(--text-muted); font-size: 16px; margin-top: 6px; max-width: 650px; margin-left: auto; margin-right: auto; }
+
+        /* NEWS CARD */
+        .news-feed { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .news-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-light); transition: 0.3s; cursor: pointer; }
+        .news-item:hover { transform: translateX(6px); padding-left: 10px; }
+        .news-item:last-child { border-bottom: none; }
+        .news-item .news-badge { background: rgba(184,134,11,0.1); color: var(--primary-gold); font-size: 9px; padding: 4px 12px; border-radius: 20px; font-weight: 700; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .news-item .news-content { flex: 1; }
+        .news-item .news-title { color: var(--text-dark); font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; transition: 0.3s; }
+        .news-item:hover .news-title { color: var(--primary-gold); }
+        .news-item .news-time { color: var(--text-muted); font-size: 11px; }
+        .news-item .news-time i { color: var(--primary-gold); margin-right: 4px; }
+
+        /* MODAL */
+        .modal-content-custom { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 18px; color: var(--text-dark); }
+        .modal-content-custom .modal-header { border-bottom: 1px solid var(--border-light); padding: 16px 20px; }
+        .modal-content-custom .modal-body { padding: 24px; max-height: 70vh; overflow-y: auto; }
+        .modal-content-custom .modal-body p { color: var(--text-body); line-height: 1.9; font-size: 15px; }
+        .modal-content-custom .modal-footer { border-top: 1px solid var(--border-light); padding: 12px 20px; }
+
+        /* FOOTER */
+        .footer { background: #f1f3f5; padding: 16px 30px; border-top: 1px solid var(--border-light); margin-left: var(--sidebar-width); }
+        .footer p { color: var(--text-muted); font-size: 12px; margin: 0; }
+        .footer .socials a { color: var(--text-muted); font-size: 15px; transition: 0.3s; margin-left: 12px; }
+        .footer .socials a:hover { color: var(--primary-gold); }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .top-bar { font-size: 9px; padding: 4px 10px; }
+            .top-bar .top-item { font-size: 9px; }
+            .top-bar .top-item i { font-size: 10px; width: 14px; }
+            .top-bar .top-divider { display: none; }
+            .sidebar { transform: translateX(-100%); top: 44px; height: calc(100vh - 44px); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.active { display: block; }
+            .sidebar-toggle { display: block; }
+            .main-content { margin-left: 0; margin-top: 44px; }
+            .section { padding: 40px 16px; }
+            .section-title h2 { font-size: 26px; }
+            .footer { margin-left: 0; }
+        }
+        @media (max-width: 576px) {
+            .section-title h2 { font-size: 22px; }
+            .news-item { flex-direction: column; gap: 8px; }
+            .news-item .news-title { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-item"><i class="fas fa-clock"></i><span class="value" id="liveTime">--:--:--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-calendar-day"></i><span class="value" id="liveDate">--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-cloud-sun"></i><span class="value" id="liveWeather">🌤️ Loading...</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-map-pin"></i><span class="value">Lagos, Nigeria</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fab fa-bitcoin"></i><span class="value gold" id="btcRate">$--,---</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-dollar-sign"></i><span class="value" id="usdRate">₦--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-pound-sign"></i><span class="value" id="gbpRate">₦--</span></div>
+        <span class="top-divider">|</span>
+        <div class="top-item"><i class="fas fa-euro-sign"></i><span class="value" id="eurRate">₦--</span></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="profile-section">
+            <img src="assets/images/sss.jpg" alt="Pamilerin Sanni" class="avatar" onerror="this.src='https://via.placeholder.com/100x100/b8860b/ffffff?text=PS'" />
+            <h4>Pamilerin I. Sanni, MNIOB</h4>
+            <div class="role"><i class="fas fa-briefcase"></i> Construction Manager · PMO Specialist</div>
+            <div class="badge-certs">
+                <span>Ph.D (In-view)</span>
+                <span>M.Sc Construction Mgt</span>
+                <span>B.Tech (1st Class)</span>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link-custom"><i class="fas fa-home"></i> Home</a>
+            <a href="blog.html" class="nav-link-custom"><i class="fas fa-blog"></i> Blog</a>
+            <a href="news.html" class="nav-link-custom active"><i class="fas fa-newspaper"></i> News</a>
+            <a href="index.html#gallery" class="nav-link-custom"><i class="fas fa-images"></i> Gallery</a>
+            <a href="index.html#videos" class="nav-link-custom"><i class="fas fa-video"></i> Videos</a>
+            <a href="index.html#career" class="nav-link-custom"><i class="fas fa-briefcase"></i> Career</a>
+            <a href="index.html#academic" class="nav-link-custom"><i class="fas fa-graduation-cap"></i> Academic</a>
+            <a href="index.html#publications" class="nav-link-custom"><i class="fas fa-file-alt"></i> Publications</a>
+            <a href="index.html#quotes" class="nav-link-custom"><i class="fas fa-quote-right"></i> Quotes</a>
+            <a href="index.html#whyme" class="nav-link-custom"><i class="fas fa-star"></i> Why Me?</a>
+            <a href="index.html#marketplace" class="nav-link-custom"><i class="fas fa-store"></i> Marketplace</a>
+            <a href="index.html#links" class="nav-link-custom"><i class="fas fa-link"></i> Resources</a>
+            <a href="index.html#contact" class="nav-link-custom"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/pamilerin-sanni-7523071883" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.tiktok.com/@YOUR_TIKTOK_USERNAME" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://github.com/Pampspampamps" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/yourusername" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/yourusername" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/yourusername" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://youtube.com/yourusername" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="sidebar-footer"><i class="fas fa-crown"></i> 2026 · Pamilerin Sanni</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <span class="badge-custom"><i class="fas fa-newspaper me-2"></i>News</span>
+                    <h2>Construction &amp; <span>Industry News</span></h2>
+                    <p>Latest updates from the construction and infrastructure sector</p>
+                </div>
+                <div class="news-feed" id="newsFeed"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <p>&copy; 2026 Pamilerin Ifelayo Sanni · Construction Manager · PMO Specialist</p>
+                <div class="socials">
+                    <a href="https://linkedin.com/in/pamilerin-sanni-7523071883" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.tiktok.com/@YOUR_TIKTOK_USERNAME" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://github.com/Pampspampamps" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="newsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newsModalTitle">News Article</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="newsModalBody"></div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== SIDEBAR =====
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        // ===== LIVE TIME =====
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // ===== WEATHER =====
+        async function fetchWeather() {
+            try {
+                const res = await fetch('https://wttr.in/Lagos,Nigeria?format=%t&lang=en&m');
+                const temp = await res.text();
+                document.getElementById('liveWeather').innerHTML = temp.trim() || '🌤️ 28°C';
+            } catch { document.getElementById('liveWeather').innerHTML = '🌤️ 28°C'; }
+        }
+        fetchWeather();
+        setInterval(fetchWeather, 900000);
+
+        // ===== CURRENCIES =====
+        async function fetchRates() {
+            try {
+                const btc = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const btcData = await btc.json();
+                document.getElementById('btcRate').textContent = '$' + btcData.bitcoin.usd.toLocaleString();
+
+                const rates = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await rates.json();
+                const ngn = data.rates.NGN;
+                document.getElementById('usdRate').textContent = '₦' + ngn.toLocaleString();
+                document.getElementById('gbpRate').textContent = '₦' + (ngn * data.rates.GBP).toLocaleString();
+                document.getElementById('eurRate').textContent = '₦' + (ngn * data.rates.EUR).toLocaleString();
+            } catch {
+                document.getElementById('btcRate').textContent = '$67,432';
+                document.getElementById('usdRate').textContent = '₦1,560';
+                document.getElementById('gbpRate').textContent = '₦2,100';
+                document.getElementById('eurRate').textContent = '₦1,850';
+            }
+        }
+        fetchRates();
+        setInterval(fetchRates, 60000);
+
+        // ===== NEWS DATA =====
+        const newsData = [
+            {
+                title: 'Nigeria Announces $2.5B Infrastructure Development Fund',
+                date: '2026-09-09',
+                time: '2 hours ago',
+                tag: 'Breaking',
+                content: 'The Federal Government of Nigeria has announced a $2.5 billion infrastructure development fund aimed at improving roads, bridges, and public buildings across the country. The fund is part of the government\'s commitment to closing the infrastructure gap and stimulating economic growth. Key projects include the rehabilitation of major highways, construction of new bridges in the Niger Delta, and the development of affordable housing schemes in urban centers.'
+            },
+            {
+                title: 'Lagos State Approves New Housing Scheme for Civil Servants',
+                date: '2026-09-08',
+                time: '4 hours ago',
+                tag: 'Policy',
+                content: 'The Lagos State Government has approved a new housing scheme for civil servants, providing affordable housing options for public sector workers. The initiative aims to address the housing deficit in the state and improve the quality of life for civil servants. The scheme includes the construction of 2,000 housing units across various locations in Lagos, with flexible payment plans and subsidized interest rates.'
+            },
+            {
+                title: 'New Safety Regulations for Construction Sites in Lagos',
+                date: '2026-09-07',
+                time: '6 hours ago',
+                tag: 'Safety',
+                content: 'The Lagos State Safety Commission has introduced new safety regulations for construction sites, requiring all projects to comply with enhanced safety standards. The regulations include mandatory safety training for all workers, regular site inspections, and the appointment of qualified safety officers. Non-compliance will result in fines and potential shutdown of projects.'
+            },
+            {
+                title: 'Globacom Completes 500 New Telecom Sites Across Nigeria',
+                date: '2026-09-06',
+                time: '8 hours ago',
+                tag: 'Telecom',
+                content: 'Globacom has announced the successful completion of 500 new telecom sites across Nigeria, expanding its network coverage and improving connectivity in underserved areas. The project was executed in partnership with local contractors and project engineers. According to Globacom, the new sites will enhance mobile and internet services for millions of Nigerians.'
+            },
+            {
+                title: 'FUTA Researchers Develop Sustainable Building Material',
+                date: '2026-09-05',
+                time: '12 hours ago',
+                tag: 'Research',
+                content: 'Researchers at the Federal University of Technology, Akure (FUTA) have developed a sustainable building material from agricultural waste. The composite material, made from rice husks and other agro-waste, offers an eco-friendly alternative to conventional building materials. The development is part of ongoing research into sustainable construction practices and green building materials in Nigeria.'
+            },
+            {
+                title: 'LASUTECH Ikorodu Campus Construction Nears Completion',
+                date: '2026-09-04',
+                time: '1 day ago',
+                tag: 'Education',
+                content: 'Construction of the new Ikorodu Campus of the Lagos State University of Science and Technology (LASUTECH) is nearing completion, with the project scheduled for commissioning later this year. The campus features state-of-the-art lecture theatres, laboratories, and administrative offices. The project was managed by HK Designs Limited, with Pamilerin I. Sanni serving as the Construction Manager.'
+            }
+        ];
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function loadNews() {
+            const feed = document.getElementById('newsFeed');
+            if (!feed) return;
+            newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            feed.innerHTML = newsData.map(news => `
+                <div class="news-item" onclick="openNews('${news.title.replace(/'/g, "\\'")}')">
+                    <span class="news-badge">${news.tag}</span>
+                    <div class="news-content">
+                        <div class="news-title">${news.title}</div>
+                        <div class="news-time">
+                            <i class="far fa-clock"></i>${news.time}
+                            <span class="ms-3"><i class="far fa-calendar-alt"></i>${formatDate(news.date)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openNews(title) {
+            const news = newsData.find(n => n.title === title);
+            if (!news) return;
+            const modal = new bootstrap.Modal(document.getElementById('newsModal'));
+            document.getElementById('newsModalTitle').textContent = news.title;
+            document.getElementById('newsModalBody').innerHTML = `
+                <div style="margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #e5e7eb;">
+                    <span style="background:rgba(184,134,11,0.1);color:#b8860b;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;">${news.tag}</span>
+                    <span style="color:#6c757d;font-size:12px;margin-left:10px;"><i class="far fa-clock" style="color:#b8860b;"></i> ${news.time}</span>
+                    <span style="color:#6c757d;font-size:12px;margin-left:10px;"><i class="far fa-calendar-alt" style="color:#b8860b;"></i> ${formatDate(news.date)}</span>
+                </div>
+                <p>${news.content}</p>
+            `;
+            modal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadNews);
+    </script>
+</body>
+</html>
